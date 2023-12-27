@@ -54,7 +54,7 @@ def main():
         quit()
 
     modelfiles = glob.glob('%s/model_0*.model'%args.modelSavePath)
-    modelfiles.sort()  
+    modelfiles.sort()
     if len(modelfiles) >= 1:
         print("Model %s loaded from previous state!"%modelfiles[-1])
         epoch = int(os.path.splitext(os.path.basename(modelfiles[-1]))[0][6:]) + 1
@@ -67,10 +67,10 @@ def main():
     mAPs = []
     scoreFile = open(args.scoreSavePath, "a+")
 
-    while(1):        
+    while(1):
         loss, lr = s.train_network(epoch = epoch, loader = trainLoader, **vars(args))
-        
-        if epoch % args.testInterval == 0:        
+
+        if epoch % args.testInterval == 0:
             s.saveParameters(args.modelSavePath + "/model_%04d.model"%epoch)
             mAPs.append(s.evaluate_network(epoch = epoch, loader = valLoader, **vars(args)))
             print(time.strftime("%Y-%m-%d %H:%M:%S"), "%d epoch, mAP %2.2f%%, bestmAP %2.2f%%"%(epoch, mAPs[-1], max(mAPs)))
